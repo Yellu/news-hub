@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">NewsHub</string>
     <string name="api_key">831501f6e103407294b32b83cb8851c0</string>
+
+    <string-array name="categories">
+        <item>business</item>
+        <item>entertainment</item>
+        <item>general</item>
+        <item>health</item>
+        <item>science</item>
+        <item>sports</item>
+        <item>technology</item>
+    </string-array>
 </resources>
