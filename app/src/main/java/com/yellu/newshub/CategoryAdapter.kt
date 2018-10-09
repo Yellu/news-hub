@@ -21,6 +21,10 @@ class CategoryAdapter(private val category: Array<String>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(p0: CategoryHolder, p1: Int) {
         p0.itemView.name.text = category[p1]
+
+        p0.itemView.setOnClickListener {
+
+        }
     }
 
     class CategoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
