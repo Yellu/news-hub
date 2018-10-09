@@ -4,6 +4,8 @@ import com.ihsanbal.logging.Level;
 import com.ihsanbal.logging.LoggingInterceptor;
 import com.yellu.newshub.BuildConfig;
 
+import java.util.Map;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -14,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.QueryMap;
 
 public class NetworkManager {
     private static NetworkManager manager = null;
@@ -81,10 +84,10 @@ public class NetworkManager {
 
     public interface NewsService{
         @GET("/v2/top-headlines")
-        Call<ResponseBody> getHeadLines();
+        Call<ResponseBody> getHeadLines(@QueryMap Map<String, Object> map);
     }
 
-    public Call<ResponseBody> headLines(){
-       return createService(NewsService.class).getHeadLines();
+    public Call<ResponseBody> headLines(Map<String, Object> map){
+       return createService(NewsService.class).getHeadLines(map);
     }
 }

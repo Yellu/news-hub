@@ -2,6 +2,7 @@ package com.yellu.newshub
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -30,6 +31,8 @@ class NewsCategoryFragment:Fragment() {
         actionBar.setDisplayHomeAsUpEnabled(false)
         actionBar.setDisplayShowTitleEnabled(true)
         actionBar.title = getString(R.string.app_name)
+
+        toolbar.setTitleTextColor(ContextCompat.getColor(activity as AppCompatActivity, R.color.white))
 
         val category: Array<String> = resources.getStringArray(R.array.categories)
 

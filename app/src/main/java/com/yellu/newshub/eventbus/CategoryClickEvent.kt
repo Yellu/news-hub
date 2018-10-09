@@ -1,3 +1,3 @@
 package com.yellu.newshub.eventbus
 
-class CategoryClickEvent
+class CategoryClickEvent(val name:String)
