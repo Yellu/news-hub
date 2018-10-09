@@ -3,8 +3,11 @@ package com.yellu.newshub
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.yellu.newshub.eventbus.CategoryClickEvent
 import com.yellu.newshub.util.NetworkManager
 import okhttp3.ResponseBody
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,22 +21,30 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
                 .add(R.id.main, NewsCategoryFragment())
                 .commit()
+    }
 
-        val request:Call<ResponseBody> = NetworkManager.getInstance().headLines()
-
-        request.enqueue(object : Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("error", t.localizedMessage)
-            }
-
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                Log.d("error", response.message())
-            }
-        })
+    override fun onStart() {
+        super.onStart()
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this)
+        }
     }
 
     override fun onResume() {
         super.onResume()
 
+    }
+
+    @Subscribe
+    fun onEvent(event: CategoryClickEvent) {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.main, NewsHeadLineFragment())
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+        super.onStop()
     }
 }

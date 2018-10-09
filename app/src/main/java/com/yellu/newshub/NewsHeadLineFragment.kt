@@ -5,13 +5,19 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.yellu.newshub.adapter.CategoryAdapter
+import com.yellu.newshub.adapter.NewsHeadLineAdapter
+import com.yellu.newshub.util.NetworkManager
 import kotlinx.android.synthetic.main.category_list_fragment.*
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class NewsCategoryFragment:Fragment() {
+class NewsHeadLineFragment:Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,16 +31,27 @@ class NewsCategoryFragment:Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        val actionBar:ActionBar = (activity as AppCompatActivity).supportActionBar!!
-        actionBar.setDisplayHomeAsUpEnabled(false)
+        val actionBar: ActionBar = (activity as AppCompatActivity).supportActionBar!!
+        actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setDisplayShowTitleEnabled(true)
         actionBar.title = getString(R.string.app_name)
 
-        val category: Array<String> = resources.getStringArray(R.array.categories)
-
         news_category.layoutManager = LinearLayoutManager(activity)
         news_category.setHasFixedSize(true)
-        news_category.adapter = CategoryAdapter(category)
+        news_category.adapter = NewsHeadLineAdapter()
+
+        val request: Call<ResponseBody> = NetworkManager.getInstance().headLines()
+
+        request.enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("error", t.localizedMessage)
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                Log.d("error", response.message())
+            }
+        })
     }
 }
