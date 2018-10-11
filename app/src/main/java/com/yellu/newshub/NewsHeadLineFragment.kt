@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +16,13 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.google.gson.Gson
+
+
 
 class NewsHeadLineFragment:Fragment() {
+
+    private var adapter:NewsHeadLineAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +33,7 @@ class NewsHeadLineFragment:Fragment() {
         fun newInstance(name: String): NewsHeadLineFragment {
             val args = Bundle()
             args.putString("category", name)
-            val fragment = NewsHeadLineFragment()
+            val fragment = NewsHeadLineFragment() 
             fragment.arguments = args
             return fragment
         }
@@ -46,28 +50,44 @@ class NewsHeadLineFragment:Fragment() {
         val actionBar: ActionBar = (activity as AppCompatActivity).supportActionBar!!
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setDisplayShowTitleEnabled(true)
-        actionBar.title = getString(R.string.app_name)
         toolbar.setTitleTextColor(ContextCompat.getColor(activity as AppCompatActivity, R.color.white))
 
         news_category.layoutManager = LinearLayoutManager(activity)
         news_category.setHasFixedSize(true)
-        news_category.adapter = NewsHeadLineAdapter()
+        adapter = NewsHeadLineAdapter()
+        news_category.adapter = adapter
 
         val category:String = arguments!!.getString("category", null)
+        actionBar.title = category
+
+        getHeadLines(category)
+    }
+
+    private fun getHeadLines(category: String) {
 
         val readWriteMap = hashMapOf("category" to category, "country" to "in",  "page" to 1, "pageSize" to 20)
-
 
         val request: Call<ResponseBody> = NetworkManager.getInstance().headLines(readWriteMap as Map<String, Any>?)
 
         request.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("error", t.localizedMessage)
+
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                Log.d("error", response.message())
+                if (response.isSuccessful){
+                    saveData(response.body())
+                }
             }
         })
+    }
+
+    private fun saveData(body: ResponseBody?) {
+        val str:String = body!!.string()
+        val gson = Gson()
+
+        val news:com.yellu.newshub.database.Response = gson.fromJson(str, com.yellu.newshub.database.Response::class.java)
+        adapter!!.updateData(news)
+        adapter!!.notifyDataSetChanged()
     }
 }
