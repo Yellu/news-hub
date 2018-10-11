@@ -5,4 +5,15 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="white">#FFFFFF</color>
+
+    <array name="color_array">
+        <item>#33324D</item>
+        <item>#554AB2</item>
+        <item>#A15178</item>
+        <item>#D74642</item>
+        <item>#008577</item>
+        <item>#00574B</item>
+        <item>#D81B60</item>
+    </array>
+
 </resources>

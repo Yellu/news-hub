@@ -2,9 +2,6 @@ package com.yellu.newshub
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +14,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.google.gson.Gson
-
-
 
 class NewsHeadLineFragment:Fragment() {
 
@@ -33,7 +28,7 @@ class NewsHeadLineFragment:Fragment() {
         fun newInstance(name: String): NewsHeadLineFragment {
             val args = Bundle()
             args.putString("category", name)
-            val fragment = NewsHeadLineFragment() 
+            val fragment = NewsHeadLineFragment()
             fragment.arguments = args
             return fragment
         }
@@ -46,19 +41,14 @@ class NewsHeadLineFragment:Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        val actionBar: ActionBar = (activity as AppCompatActivity).supportActionBar!!
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setDisplayShowTitleEnabled(true)
-        toolbar.setTitleTextColor(ContextCompat.getColor(activity as AppCompatActivity, R.color.white))
-
         news_category.layoutManager = LinearLayoutManager(activity)
         news_category.setHasFixedSize(true)
         adapter = NewsHeadLineAdapter()
         news_category.adapter = adapter
 
         val category:String = arguments!!.getString("category", null)
-        actionBar.title = category
+
+        loader.show()
 
         getHeadLines(category)
     }
@@ -71,10 +61,11 @@ class NewsHeadLineFragment:Fragment() {
 
         request.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-
+                loader.hide()
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                loader.hide()
                 if (response.isSuccessful){
                     saveData(response.body())
                 }

@@ -5,14 +5,19 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.yellu.newshub.adapter.CategoryAdapter
-import kotlinx.android.synthetic.main.category_list_fragment.*
+import com.yellu.newshub.adapter.NewsPagerAdapter
+import kotlinx.android.synthetic.main.news_pager_fragment.*
 
-class NewsCategoryFragment:Fragment() {
+class NewsPagerFragment:Fragment() {
+
+    companion object {
+        fun newInstance(): NewsPagerFragment{
+            return NewsPagerFragment()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,14 +25,14 @@ class NewsCategoryFragment:Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.category_list_fragment, container, false)
+        return inflater.inflate(R.layout.news_pager_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        val actionBar:ActionBar = (activity as AppCompatActivity).supportActionBar!!
+        val actionBar: ActionBar = (activity as AppCompatActivity).supportActionBar!!
         actionBar.setDisplayHomeAsUpEnabled(false)
         actionBar.setDisplayShowTitleEnabled(true)
         actionBar.title = getString(R.string.app_name)
@@ -36,8 +41,7 @@ class NewsCategoryFragment:Fragment() {
 
         val category: Array<String> = resources.getStringArray(R.array.categories)
 
-        news_category.layoutManager = LinearLayoutManager(activity)
-        news_category.setHasFixedSize(true)
-        news_category.adapter = CategoryAdapter(category)
+        news_pager.adapter = NewsPagerAdapter(childFragmentManager, category)
+        tabs.setupWithViewPager(news_pager, false)
     }
 }
