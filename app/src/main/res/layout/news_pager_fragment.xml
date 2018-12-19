@@ -5,11 +5,11 @@
     android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
@@ -22,7 +22,7 @@
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -31,7 +31,7 @@
             app:tabTextColor="@color/white"
             app:tabMode="scrollable"/>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/news_pager"

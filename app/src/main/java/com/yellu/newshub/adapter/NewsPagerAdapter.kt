@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.yellu.newshub.NewsHeadLineFragment
 
-class NewsPagerAdapter(fm: FragmentManager?, val category: Array<String>) : FragmentStatePagerAdapter(fm) {
+class NewsPagerAdapter(fm: FragmentManager?, val category: Array<String>) : FragmentStatePagerAdapter(fm!!) {
 
     override fun getItem(p0: Int): Fragment {
         return NewsHeadLineFragment.newInstance(category[p0])

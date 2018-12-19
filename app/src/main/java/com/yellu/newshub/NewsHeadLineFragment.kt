@@ -2,10 +2,10 @@ package com.yellu.newshub
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.yellu.newshub.adapter.NewsHeadLineAdapter
 import com.yellu.newshub.util.NetworkManager
 import kotlinx.android.synthetic.main.category_list_fragment.*
@@ -40,7 +40,7 @@ class NewsHeadLineFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+//https://developer.android.com/jetpack/androidx/migrate
         news_category.layoutManager = LinearLayoutManager(activity)
         news_category.setHasFixedSize(true)
         adapter = NewsHeadLineAdapter()
