@@ -48,7 +48,7 @@ class NewsHeadLineFragment: Fragment() {
 
         val category:String = arguments!!.getString("category", null)
 
-        loader.show()
+        loader!!.show()
 
         getHeadLines(category)
     }
@@ -61,11 +61,11 @@ class NewsHeadLineFragment: Fragment() {
 
         request.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                loader.hide()
+                loader!!.hide()
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                loader.hide()
+                loader!!.hide()
                 if (response.isSuccessful){
                     saveData(response.body())
                 }
@@ -74,10 +74,10 @@ class NewsHeadLineFragment: Fragment() {
     }
 
     private fun saveData(body: ResponseBody?) {
-        val str:String = body!!.string()
+        val str = body!!.string()
         val gson = Gson()
 
-        val news:com.yellu.newshub.database.Response = gson.fromJson(str, com.yellu.newshub.database.Response::class.java)
+        val news = gson.fromJson(str, com.yellu.newshub.database.Response::class.java)
         adapter!!.updateData(news)
         adapter!!.notifyDataSetChanged()
     }
