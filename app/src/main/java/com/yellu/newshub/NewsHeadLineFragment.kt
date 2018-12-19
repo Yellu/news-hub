@@ -1,8 +1,8 @@
 package com.yellu.newshub
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.google.gson.Gson
 
-class NewsHeadLineFragment:Fragment() {
+class NewsHeadLineFragment: Fragment() {
 
     private var adapter:NewsHeadLineAdapter? = null
 
